@@ -13,14 +13,6 @@ const roleLabels: Record<Role, string> = {
   'hr': 'HR',
 };
 
-const roleDashboards: Record<Role, string> = {
-  'super-admin': '/dashboard',
-  'org-admin': '/dashboard/org-admin',
-  'maker': '/dashboard/maker',
-  'approver': '/dashboard/approver',
-  'finance': '/dashboard/finance',
-  'hr': '/dashboard/hr',
-};
 
 interface NavbarProps {
   currentRole: Role;
@@ -40,7 +32,7 @@ export function Navbar({ currentRole, onRoleChange }: NavbarProps) {
       const updated = { ...user, role };
       storeUser(updated);
       onRoleChange(role);
-      setLocation(roleDashboards[role]);
+      setLocation("/dashboard");
     }
     setShowUserMenu(false);
   };

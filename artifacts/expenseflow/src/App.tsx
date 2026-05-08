@@ -7,11 +7,7 @@ import { getStoredUser } from "@/lib/mock-data";
 
 import LoginPage from "@/pages/LoginPage";
 import OrgSelectPage from "@/pages/OrgSelectPage";
-import SuperAdminDashboard from "@/pages/dashboard/SuperAdminDashboard";
-import OrgAdminDashboard from "@/pages/dashboard/OrgAdminDashboard";
-import MakerDashboard from "@/pages/dashboard/MakerDashboard";
-import ApproverDashboard from "@/pages/dashboard/ApproverDashboard";
-import FinanceDashboard from "@/pages/dashboard/FinanceDashboard";
+import RoleDashboard from "@/pages/dashboard/RoleDashboard";
 import HRDashboard from "@/pages/dashboard/HRDashboard";
 import ExpenseListPage from "@/pages/ExpenseListPage";
 import ExpenseDetailPage from "@/pages/ExpenseDetailPage";
@@ -37,24 +33,9 @@ function Router() {
       <Route path="/" component={LoginPage} />
       <Route path="/select-org" component={OrgSelectPage} />
 
-      {/* Dashboards */}
+      {/* Dashboard — role-aware, one route for all roles */}
       <Route path="/dashboard">
-        <ProtectedRoute><SuperAdminDashboard /></ProtectedRoute>
-      </Route>
-      <Route path="/dashboard/org-admin">
-        <ProtectedRoute><OrgAdminDashboard /></ProtectedRoute>
-      </Route>
-      <Route path="/dashboard/maker">
-        <ProtectedRoute><MakerDashboard /></ProtectedRoute>
-      </Route>
-      <Route path="/dashboard/approver">
-        <ProtectedRoute><ApproverDashboard /></ProtectedRoute>
-      </Route>
-      <Route path="/dashboard/finance">
-        <ProtectedRoute><FinanceDashboard /></ProtectedRoute>
-      </Route>
-      <Route path="/dashboard/hr">
-        <ProtectedRoute><HRDashboard /></ProtectedRoute>
+        <ProtectedRoute><RoleDashboard /></ProtectedRoute>
       </Route>
 
       {/* Main modules */}
