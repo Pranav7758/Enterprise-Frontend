@@ -1,0 +1,469 @@
+Create a modern enterprise-grade frontend-only web application for a “Multi-Organization Expense Management System” inspired by the uploaded dashboard design image.
+
+The UI should have the same premium visual feel as the uploaded image:
+
+dark luxury fintech dashboard
+glassmorphism feel
+smooth rounded cards
+soft glowing shadows
+purple + dark navy color palette
+modern enterprise SaaS design
+highly polished professional appearance
+
+IMPORTANT:
+This is ONLY frontend UI.
+Do NOT create backend logic.
+Do NOT create database.
+Use dummy/static/mock data everywhere.
+
+Tech Stack:
+
+Next.js latest version
+TypeScript
+Tailwind CSS
+Shadcn/UI
+Framer Motion
+Recharts for charts
+Lucide React icons
+
+The design must be fully responsive:
+
+Desktop optimized first
+Tablet responsive
+Mobile responsive
+
+Use clean folder structure and reusable components.
+
+GLOBAL DESIGN STYLE
+
+Theme:
+
+Dark premium enterprise UI
+Background:
+dark navy (#060b1f)
+soft purple gradients
+Accent:
+neon purple
+soft cyan
+Rounded corners:
+20px to 28px
+Glassmorphism:
+blur backgrounds
+semi-transparent cards
+Smooth hover animations
+Subtle glowing borders
+Animated transitions
+
+Typography:
+
+Clean modern sans-serif
+Large dashboard headings
+Elegant spacing
+Enterprise SaaS feel
+
+Animations:
+
+Smooth fade-in cards
+Sidebar hover animations
+Button glow effects
+Card hover scaling
+Animated charts
+APPLICATION STRUCTURE
+
+Create full frontend UI for these sections:
+
+Authentication
+Organization Selection
+Role-Based Dashboards
+Expense Management
+Vendor Management
+Approval Workflow
+Finance Management
+HR Settlement Module
+Reports & Analytics
+Settings
+Notifications
+Multi-Organization Switcher
+AUTHENTICATION UI
+
+Create:
+
+Login Page
+Forgot Password Page
+Reset Password Page
+
+Design:
+
+Split-screen modern fintech login
+Left side:
+gradient graphics
+animated shapes
+company branding
+Right side:
+login form glassmorphism card
+
+Login fields:
+
+Email
+Password
+Remember Me
+Login Button
+
+Add:
+
+smooth focus animations
+loading states
+floating labels
+ORGANIZATION SWITCHER UI
+
+After login:
+Show organization selection screen.
+
+Display organizations as premium cards:
+
+company logo
+organization name
+role badge
+currency
+active projects count
+
+Include:
+
+search bar
+switch organization button
+create organization button
+
+Use hover glow effects.
+
+MAIN LAYOUT
+
+Main app layout should include:
+
+LEFT SIDEBAR:
+
+collapsible
+animated
+glowing active menu
+modern icons
+
+TOP NAVBAR:
+
+profile dropdown
+notifications
+organization switcher
+search bar
+dark mode toggle
+
+MAIN CONTENT AREA:
+
+dynamic dashboard widgets
+charts
+cards
+tables
+ROLE-BASED DASHBOARDS
+
+Create separate frontend dashboards for:
+
+Super Admin
+Organization Admin
+Maker
+Approver
+Finance
+HR
+
+Each dashboard should feel unique but maintain same design system.
+
+SUPER ADMIN DASHBOARD
+
+Widgets:
+
+Total Organizations
+Total Users
+Monthly Expenses
+Pending Approvals
+Revenue Analytics
+
+Charts:
+
+organization growth chart
+expense analytics
+activity heatmap
+
+Tables:
+
+recent organizations
+latest activity logs
+ORGANIZATION ADMIN DASHBOARD
+
+Widgets:
+
+Active Users
+Total Expenses
+Pending Approvals
+Vendor Count
+Budget Usage
+
+Features:
+
+Manage Users
+Assign Roles
+View Organizations
+Department Cards
+Project Overview
+MAKER DASHBOARD
+
+Widgets:
+
+My Expenses
+Pending Requests
+Approved Expenses
+Rejected Expenses
+
+Features:
+
+Create Expense Form
+Upload Invoice UI
+Vendor Selector
+Expense History Table
+
+Expense form fields:
+
+title
+amount
+category
+vendor
+date
+invoice upload
+notes
+APPROVER DASHBOARD
+
+Widgets:
+
+Pending Approvals
+Approval Queue
+Rejected Requests
+Budget Alerts
+
+Features:
+
+Expense Review Modal
+Approve/Reject Buttons
+Comments Section
+OTP Verification Modal
+
+Expense review should show:
+
+invoice preview
+expense details
+vendor details
+status timeline
+FINANCE DASHBOARD
+
+Widgets:
+
+Approved Expenses
+Payment Queue
+Bank Balance
+Reconciliation Stats
+
+Charts:
+
+payment analytics
+cash flow chart
+monthly expenses
+
+Features:
+
+Process Payment Modal
+Bank Statement Upload UI
+Reconciliation Table
+Payment Status Badges
+HR DASHBOARD
+
+Widgets:
+
+Employee Settlements
+Pending Dues
+FNF Requests
+
+Features:
+
+Settlement Timeline
+Employee Clearance Cards
+Final Settlement Modal
+EXPENSE MANAGEMENT UI
+
+Create:
+
+Expense List Page
+Expense Details Page
+Expense Timeline
+Expense Status Tracker
+
+Statuses:
+
+Draft
+Pending
+Approved
+Rejected
+Paid
+
+Use colorful status badges with glow effects.
+
+VENDOR MANAGEMENT UI
+
+Vendor Page should include:
+
+vendor cards
+vendor table
+add vendor modal
+vendor details panel
+
+Fields:
+
+vendor name
+GST number
+contact
+email
+address
+REPORTS & ANALYTICS UI
+
+Create premium analytics pages.
+
+Include:
+
+bar charts
+pie charts
+line charts
+expense heatmaps
+organization comparison charts
+
+Filters:
+
+date range
+organization
+category
+vendor
+NOTIFICATIONS UI
+
+Create:
+
+notification dropdown
+notification center page
+
+Types:
+
+approval request
+rejected expense
+payment processed
+OTP verification
+settlement alerts
+SETTINGS UI
+
+Create tabs:
+
+Profile
+Security
+Organizations
+Preferences
+Notifications
+
+Include:
+
+avatar upload
+password change
+theme settings
+language settings
+COMPONENT REQUIREMENTS
+
+Use reusable components:
+
+sidebar
+navbar
+cards
+charts
+tables
+modals
+buttons
+inputs
+dropdowns
+badges
+tabs
+
+All components should follow same visual system.
+
+TABLES
+
+Use modern enterprise tables with:
+
+pagination
+sorting
+search
+filters
+hover effects
+sticky headers
+MODALS
+
+Create animated glassmorphism modals for:
+
+add expense
+add vendor
+approve expense
+OTP verification
+process payment
+organization settings
+CHARTS
+
+Use Recharts.
+
+Include:
+
+animated charts
+smooth gradients
+glowing tooltips
+modern legends
+RESPONSIVENESS
+
+Desktop:
+
+full premium dashboard layout
+
+Tablet:
+
+collapsible sidebar
+stacked cards
+
+Mobile:
+
+bottom navigation
+responsive cards
+compact tables
+FINAL REQUIREMENTS
+
+Frontend should feel like:
+
+Stripe
+Ramp
+Brex
+modern fintech SaaS platforms
+
+The UI must look:
+
+production-ready
+premium
+visually impressive
+highly modern
+investor-demo quality
+
+Use realistic dummy data everywhere.
+
+Focus heavily on:
+
+UI polish
+spacing
+hierarchy
+premium animations
+clean enterprise experience
+
+Do NOT build backend.
+Frontend only.

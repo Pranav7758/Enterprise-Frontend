@@ -1,45 +1,58 @@
-# [Project name]
+# ExpenseFlow — Multi-Organization Expense Management
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+Premium enterprise-grade dark luxury fintech dashboard for managing expenses across multiple organizations.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
-- `pnpm run typecheck` — full typecheck across all packages
-- `pnpm run build` — typecheck + build all packages
-- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
+- `pnpm --filter @workspace/expenseflow run dev` — run the frontend (port varies)
+- `pnpm --filter @workspace/expenseflow run typecheck` — typecheck the app
 
 ## Stack
 
-- pnpm workspaces, Node.js 24, TypeScript 5.9
-- API: Express 5
-- DB: PostgreSQL + Drizzle ORM
-- Validation: Zod (`zod/v4`), `drizzle-zod`
-- API codegen: Orval (from OpenAPI spec)
-- Build: esbuild (CJS bundle)
+- React 19 + Vite 7, TypeScript 5.9
+- Tailwind CSS v4 + custom dark navy theme (glassmorphism utilities)
+- Framer Motion (animations), Recharts (charts), Lucide React (icons)
+- Wouter (routing), shadcn/ui components
+- All data is static/mock — no backend required
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/expenseflow/src/` — all app source
+- `src/lib/mock-data.ts` — all mock data, organizations, expenses, vendors, notifications
+- `src/index.css` — full dark navy theme, glassmorphism utilities
+- `src/App.tsx` — all routes (wouter)
+- `src/components/layout/` — Sidebar, Navbar, AppLayout
+- `src/components/shared/` — GlassCard, StatCard, StatusBadge, PageHeader
+- `src/pages/` — all pages
+- `src/pages/dashboard/` — role-specific dashboards
 
-## Architecture decisions
+## Pages
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- `/` — Login (split-panel with animated blobs)
+- `/select-org` — Organization selection card grid
+- `/dashboard` — Super Admin Dashboard (org overview, charts)
+- `/dashboard/org-admin` — Org Admin (budget gauges, department budgets)
+- `/dashboard/maker` — Maker (submit expenses modal)
+- `/dashboard/approver` — Approver (OTP verification flow)
+- `/dashboard/finance` — Finance (payment queue, cash flow charts)
+- `/dashboard/hr` — HR Module (FNF settlements)
+- `/expenses` — Expense list (paginated table, status filters)
+- `/expenses/:id` — Expense detail (status tracker, activity timeline)
+- `/vendors` — Vendor management (grid/list toggle, slide-out panel)
+- `/approvals` — Kanban-style approval workflow
+- `/reports` — Analytics with 5 tab views and multiple chart types
+- `/notifications` — Filterable notification feed
+- `/settings` — Profile, Security, Organizations, Preferences, Notifications
 
-## Product
+## Auth
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- localStorage-based: key `expenseflow_user` stores `{ name, email, role, org }`
+- Role switching available in Navbar dropdown (demo)
+- 6 roles: super-admin, org-admin, maker, approver, finance, hr
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
-
-## Gotchas
-
-_Populate as you build — sharp edges, "always run X before Y" rules._
-
-## Pointers
-
-- See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details
+- Dark-only theme (no light mode toggle)
+- Glassmorphism cards throughout
+- Neon purple (#7c3aed) + cyan (#06b6d4) accent palette
+- Framer Motion page transitions and micro-animations
