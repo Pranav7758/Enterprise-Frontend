@@ -1,0 +1,9 @@
+{
+  "buildCommand": "pnpm --filter @workspace/expenseflow run build",
+  "outputDirectory": "artifacts/expenseflow/dist/public",
+  "installCommand": "pnpm install",
+  "framework": null,
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
