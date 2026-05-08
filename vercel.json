@@ -1,6 +1,6 @@
 {
   "buildCommand": "pnpm --filter @workspace/expenseflow run build",
-  "outputDirectory": "artifacts/expenseflow/dist",
+  "outputDirectory": "dist",
   "installCommand": "pnpm install",
   "framework": null,
   "rewrites": [
