@@ -3,11 +3,11 @@ set -e
 
 echo "=== Vercel Build: ExpenseFlow ==="
 echo "Node: $(node --version)"
-echo "Working dir: $(pwd)"
+echo "pnpm: $(pnpm --version)"
 
 echo "=== Building ==="
 cd artifacts/expenseflow
-./node_modules/.bin/vite build --config vite.config.ts
+pnpm run build
 
 echo "=== Copying output to root dist/ ==="
 cd ../..
