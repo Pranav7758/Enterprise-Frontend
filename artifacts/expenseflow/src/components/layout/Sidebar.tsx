@@ -7,7 +7,8 @@ import {
   Users, Bell, Settings, LogOut, ChevronLeft, ChevronRight,
   Building2, CreditCard
 } from "lucide-react";
-import { clearUser, getStoredUser } from "@/lib/mock-data";
+import { clearUser, getStoredUser, type Role } from "@/lib/mock-data";
+import { useRole } from "@/lib/role-context";
 
 interface NavItem {
   label: string;
@@ -20,7 +21,16 @@ interface NavGroup {
   items: NavItem[];
 }
 
-const navGroups: NavGroup[] = [
+const roleLabels: Record<Role, string> = {
+  'super-admin': 'Super Admin',
+  'org-admin': 'Org Admin',
+  'maker': 'Maker',
+  'approver': 'Approver',
+  'finance': 'Finance',
+  'hr': 'HR',
+};
+
+const allNavGroups: NavGroup[] = [
   {
     title: "Overview",
     items: [
@@ -51,6 +61,25 @@ const navGroups: NavGroup[] = [
   },
 ];
 
+const roleNavItems: Record<Role, string[]> = {
+  'super-admin': ['Dashboard', 'Expenses', 'Approvals', 'Vendors', 'Reports', 'HR Module', 'Notifications', 'Settings'],
+  'org-admin':   ['Dashboard', 'Expenses', 'Approvals', 'Vendors', 'Reports', 'Notifications', 'Settings'],
+  'maker':       ['Dashboard', 'Expenses', 'Notifications', 'Settings'],
+  'approver':    ['Dashboard', 'Approvals', 'Expenses', 'Notifications', 'Settings'],
+  'finance':     ['Dashboard', 'Expenses', 'Vendors', 'Reports', 'Notifications', 'Settings'],
+  'hr':          ['Dashboard', 'HR Module', 'Notifications', 'Settings'],
+};
+
+function getNavGroupsForRole(role: Role): NavGroup[] {
+  const allowed = new Set(roleNavItems[role]);
+  return allNavGroups
+    .map(group => ({
+      ...group,
+      items: group.items.filter(item => allowed.has(item.label)),
+    }))
+    .filter(group => group.items.length > 0);
+}
+
 interface SidebarProps {
   collapsed: boolean;
   onToggle: () => void;
@@ -59,6 +88,9 @@ interface SidebarProps {
 export function Sidebar({ collapsed, onToggle }: SidebarProps) {
   const [location] = useLocation();
   const user = getStoredUser();
+  const { currentRole } = useRole();
+
+  const navGroups = getNavGroupsForRole(currentRole);
 
   const isActive = (href: string) => {
     if (href === "/dashboard") return location.startsWith("/dashboard");
@@ -100,7 +132,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
         </AnimatePresence>
       </div>
 
-      {/* Org info */}
+      {/* Org + role info */}
       <div className="flex items-center gap-3 px-4 py-3 border-b border-white/5 bg-white/2">
         <div className="w-7 h-7 rounded-lg bg-purple-700/40 flex items-center justify-center shrink-0">
           <Building2 className="w-3.5 h-3.5 text-purple-400" />
@@ -114,7 +146,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
               className="min-w-0"
             >
               <p className="text-xs font-semibold text-foreground truncate">{user?.org ?? "Acme Corp"}</p>
-              <p className="text-[10px] text-muted-foreground capitalize">{user?.role?.replace('-', ' ') ?? "Super Admin"}</p>
+              <p className="text-[10px] text-purple-400 font-medium">{roleLabels[currentRole]}</p>
             </motion.div>
           )}
         </AnimatePresence>
@@ -122,58 +154,71 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
 
       {/* Nav groups */}
       <nav className="flex-1 overflow-y-auto scrollbar-thin py-3 px-2">
-        {navGroups.map((group) => (
-          <div key={group.title} className="mb-4">
-            <AnimatePresence>
-              {!collapsed && (
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="text-[10px] uppercase tracking-widest text-muted-foreground/60 px-2 mb-1.5 font-semibold"
-                >
-                  {group.title}
-                </motion.p>
-              )}
-            </AnimatePresence>
-            <ul className="space-y-0.5">
-              {group.items.map((item) => {
-                const active = isActive(item.href);
-                return (
-                  <li key={item.href}>
-                    <Link href={item.href}>
-                      <motion.a
-                        whileHover={{ x: 2 }}
-                        className={cn(
-                          "flex items-center gap-3 px-2.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer",
-                          collapsed ? "justify-center" : "",
-                          active
-                            ? "bg-purple-500/15 text-purple-300 border-l-2 border-purple-500 pl-[9px]"
-                            : "text-muted-foreground hover:text-foreground hover:bg-white/5"
-                        )}
-                        data-testid={`nav-${item.label.toLowerCase().replace(/\s/g, '-')}`}
-                      >
-                        <item.icon className={cn("shrink-0", active ? "w-4.5 h-4.5 text-purple-400" : "w-4.5 h-4.5")} style={{ width: '18px', height: '18px' }} />
-                        <AnimatePresence>
-                          {!collapsed && (
-                            <motion.span
-                              initial={{ opacity: 0, x: -8 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              exit={{ opacity: 0, x: -8 }}
-                              transition={{ duration: 0.15 }}
-                            >
-                              {item.label}
-                            </motion.span>
-                          )}
-                        </AnimatePresence>
-                      </motion.a>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        ))}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentRole}
+            initial={{ opacity: 0, x: -8 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 8 }}
+            transition={{ duration: 0.2 }}
+          >
+            {navGroups.map((group) => (
+              <div key={group.title} className="mb-4">
+                <AnimatePresence>
+                  {!collapsed && (
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="text-[10px] uppercase tracking-widest text-muted-foreground/60 px-2 mb-1.5 font-semibold"
+                    >
+                      {group.title}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
+                <ul className="space-y-0.5">
+                  {group.items.map((item) => {
+                    const active = isActive(item.href);
+                    return (
+                      <li key={item.href}>
+                        <Link href={item.href}>
+                          <motion.a
+                            whileHover={{ x: 2 }}
+                            className={cn(
+                              "flex items-center gap-3 px-2.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer",
+                              collapsed ? "justify-center" : "",
+                              active
+                                ? "bg-purple-500/15 text-purple-300 border-l-2 border-purple-500 pl-[9px]"
+                                : "text-muted-foreground hover:text-foreground hover:bg-white/5"
+                            )}
+                            data-testid={`nav-${item.label.toLowerCase().replace(/\s/g, '-')}`}
+                          >
+                            <item.icon
+                              className={cn("shrink-0", active ? "text-purple-400" : "")}
+                              style={{ width: '18px', height: '18px' }}
+                            />
+                            <AnimatePresence>
+                              {!collapsed && (
+                                <motion.span
+                                  initial={{ opacity: 0, x: -8 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  exit={{ opacity: 0, x: -8 }}
+                                  transition={{ duration: 0.15 }}
+                                >
+                                  {item.label}
+                                </motion.span>
+                              )}
+                            </AnimatePresence>
+                          </motion.a>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
       </nav>
 
       {/* User footer */}
