@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
-import { motion } from "framer-motion";
 import { organizations, formatCurrency, getStoredUser, storeUser, clearUser } from "@/lib/mock-data";
-import { Search, Plus, LogOut, Users, FolderOpen, CheckCircle } from "lucide-react";
+import { Search, Plus, LogOut, Users, FolderOpen, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function OrgSelectPage() {
@@ -13,127 +12,103 @@ export default function OrgSelectPage() {
   const filtered = organizations.filter(o => o.name.toLowerCase().includes(query.toLowerCase()));
 
   const handleSelect = (org: typeof organizations[0]) => {
-    if (user) {
-      storeUser({ ...user, org: org.name, role: org.role });
-    }
+    if (user) storeUser({ ...user, org: org.name, role: org.role });
     setLocation("/dashboard");
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6" style={{ background: "hsl(228 81% 7%)" }}>
-      {/* Background glow */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full opacity-20"
-          style={{ background: "radial-gradient(circle, rgba(124,58,237,0.5) 0%, transparent 70%)" }} />
-      </div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-3xl relative z-10"
-      >
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col items-center justify-center p-6">
+      <div className="w-full max-w-2xl">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-foreground mb-2">Select Organization</h1>
-          <p className="text-sm text-muted-foreground">
-            Welcome back, <span className="text-purple-400 font-medium">{user?.name ?? "Alex"}</span>. Choose an organization to continue.
+          <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center mx-auto mb-4">
+            <Users className="w-5 h-5 text-white" />
+          </div>
+          <h1 className="text-2xl font-bold text-slate-900 mb-1">Select Organization</h1>
+          <p className="text-sm text-slate-500">
+            Welcome back, <span className="text-slate-800 font-medium">{user?.name ?? "Alex"}</span>. Choose an organization to continue.
           </p>
         </div>
 
-        {/* Search + actions */}
-        <div className="flex items-center gap-3 mb-5">
-          <div className="flex-1 flex items-center gap-2.5 px-4 py-2.5 rounded-xl border border-white/10 bg-white/5">
-            <Search className="w-4 h-4 text-muted-foreground shrink-0" />
+        {/* Search + action */}
+        <div className="flex items-center gap-3 mb-4">
+          <div className="flex-1 flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg bg-white border border-[#E2E8F0] shadow-sm">
+            <Search className="w-4 h-4 text-slate-400 shrink-0" />
             <input
               type="text"
               placeholder="Search organizations..."
               value={query}
               onChange={e => setQuery(e.target.value)}
-              className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
+              className="flex-1 bg-transparent text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none"
               data-testid="input-search-org"
             />
           </div>
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium transition-colors"
+          <button
+            className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition-colors"
             data-testid="button-create-org"
           >
             <Plus className="w-4 h-4" />
-            Create Org
-          </motion.button>
+            New Org
+          </button>
         </div>
 
-        {/* Org cards grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Org list */}
+        <div className="bg-white border border-[#E2E8F0] rounded-xl shadow-sm overflow-hidden">
+          {filtered.length === 0 && (
+            <div className="text-center py-12 text-slate-400 text-sm">No organizations found.</div>
+          )}
           {filtered.map((org, i) => (
-            <motion.div
+            <button
               key={org.id}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.08, duration: 0.4 }}
               onClick={() => handleSelect(org)}
-              className="glass-card rounded-2xl p-5 border border-white/8 cursor-pointer hover:border-purple-500/30 hover:-translate-y-0.5 group transition-all duration-300 hover:shadow-[0_0_24px_rgba(124,58,237,0.15)]"
+              className={cn(
+                "w-full flex items-center gap-4 px-5 py-4 text-left hover:bg-slate-50 transition-colors group",
+                i > 0 && "border-t border-[#F1F5F9]"
+              )}
               data-testid={`card-org-${org.id}`}
             >
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div
-                    className="w-12 h-12 rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-lg"
-                    style={{ background: org.color }}
-                  >
-                    {org.initials}
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground text-sm group-hover:text-purple-300 transition-colors">{org.name}</h3>
-                    <span className="inline-flex items-center gap-1 mt-0.5 text-[10px] font-medium px-2 py-0.5 rounded-full bg-purple-500/15 text-purple-400 border border-purple-500/20">
-                      <CheckCircle className="w-2.5 h-2.5" />
-                      {org.role.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                    </span>
-                  </div>
-                </div>
-                <span className="text-xs font-semibold text-muted-foreground px-2 py-1 rounded-lg bg-white/5">
-                  {org.currency}
-                </span>
+              <div
+                className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-base shrink-0"
+                style={{ background: org.color }}
+              >
+                {org.initials}
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white/4">
-                  <Users className="w-3.5 h-3.5 text-purple-400 shrink-0" />
-                  <div>
-                    <p className="text-xs font-semibold text-foreground">{org.users}</p>
-                    <p className="text-[10px] text-muted-foreground">Users</p>
-                  </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-0.5">
+                  <p className="text-sm font-semibold text-slate-800">{org.name}</p>
+                  <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-slate-100 text-slate-500 border border-slate-200">
+                    {org.role.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                  </span>
                 </div>
-                <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white/4">
-                  <FolderOpen className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                  <div>
-                    <p className="text-xs font-semibold text-foreground">{org.activeProjects}</p>
-                    <p className="text-[10px] text-muted-foreground">Projects</p>
-                  </div>
+                <div className="flex items-center gap-4 text-xs text-slate-400">
+                  <span className="flex items-center gap-1"><Users className="w-3 h-3" />{org.users} users</span>
+                  <span className="flex items-center gap-1"><FolderOpen className="w-3 h-3" />{org.activeProjects} projects</span>
+                  <span>{org.currency}</span>
                 </div>
               </div>
 
-              <div className="mt-3 pt-3 border-t border-white/6 flex items-center justify-between">
-                <span className="text-[11px] text-muted-foreground">Monthly spend</span>
-                <span className="text-sm font-bold text-foreground">{formatCurrency(org.monthlySpend, org.currency)}</span>
+              <div className="text-right shrink-0">
+                <p className="text-sm font-bold text-slate-800">{formatCurrency(org.monthlySpend, org.currency)}</p>
+                <p className="text-[10px] text-slate-400">Monthly spend</p>
               </div>
-            </motion.div>
+
+              <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-slate-500 transition-colors shrink-0" />
+            </button>
           ))}
         </div>
 
-        <div className="mt-6 text-center">
+        <div className="mt-5 text-center">
           <button
             onClick={() => { clearUser(); setLocation("/"); }}
-            className="flex items-center gap-2 mx-auto text-sm text-muted-foreground hover:text-red-400 transition-colors"
+            className="flex items-center gap-1.5 mx-auto text-sm text-slate-400 hover:text-red-500 transition-colors"
             data-testid="button-logout-org"
           >
             <LogOut className="w-3.5 h-3.5" />
             Sign out
           </button>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }

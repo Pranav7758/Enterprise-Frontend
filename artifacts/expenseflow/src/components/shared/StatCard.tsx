@@ -1,7 +1,6 @@
 import { cn } from "@/lib/utils";
 import { LucideIcon } from "lucide-react";
-import { GlassCard } from "./GlassCard";
-import { motion } from "framer-motion";
+import { TrendingUp, TrendingDown } from "lucide-react";
 
 interface StatCardProps {
   label: string;
@@ -14,34 +13,29 @@ interface StatCardProps {
   delay?: number;
 }
 
-export function StatCard({ label, value, trend, trendUp, icon: Icon, iconColor = 'text-purple-400', iconBg = 'bg-purple-500/10', delay = 0 }: StatCardProps) {
+export function StatCard({ label, value, trend, trendUp, icon: Icon, iconColor = 'text-blue-600', iconBg = 'bg-blue-50' }: StatCardProps) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay, duration: 0.4, ease: 'easeOut' }}
-    >
-      <GlassCard hover glow="purple" className="flex flex-col gap-3">
-        <div className="flex items-start justify-between">
-          <div className={cn("p-2.5 rounded-xl", iconBg)}>
-            <Icon className={cn("w-5 h-5", iconColor)} />
-          </div>
-          {trend && (
-            <span className={cn(
-              "text-xs font-medium px-2 py-0.5 rounded-full",
-              trendUp
-                ? "text-green-400 bg-green-400/10"
-                : "text-red-400 bg-red-400/10"
-            )}>
-              {trendUp ? '↑' : '↓'} {trend}
-            </span>
-          )}
+    <div className="bg-white border border-[#E2E8F0] rounded-lg p-5 shadow-sm">
+      <div className="flex items-center justify-between mb-4">
+        <div className={cn("w-9 h-9 rounded-lg flex items-center justify-center", iconBg)}>
+          <Icon className={cn("w-4.5 h-4.5", iconColor)} style={{ width: 18, height: 18 }} />
         </div>
-        <div>
-          <p className="text-2xl font-bold text-foreground tracking-tight">{value}</p>
-          <p className="text-sm text-muted-foreground mt-0.5">{label}</p>
-        </div>
-      </GlassCard>
-    </motion.div>
+        {trend && (
+          <span className={cn(
+            "inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full",
+            trendUp
+              ? "text-emerald-700 bg-emerald-50"
+              : "text-red-600 bg-red-50"
+          )}>
+            {trendUp
+              ? <TrendingUp className="w-3 h-3" />
+              : <TrendingDown className="w-3 h-3" />}
+            {trend}
+          </span>
+        )}
+      </div>
+      <p className="text-2xl font-bold text-slate-900 tracking-tight tabular-nums">{value}</p>
+      <p className="text-sm text-slate-500 mt-0.5">{label}</p>
+    </div>
   );
 }

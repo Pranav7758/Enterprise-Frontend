@@ -7,18 +7,13 @@ interface GlassCardProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
-  ({ className, glow = 'none', hover = false, children, ...props }, ref) => {
+  ({ className, hover = false, children, ...props }, ref) => {
     return (
       <div
         ref={ref}
         className={cn(
-          "glass-card rounded-2xl p-5 transition-all duration-300",
-          hover && "cursor-pointer hover:-translate-y-0.5",
-          glow === 'purple' && "hover:glow-purple hover:border-purple-500/30",
-          glow === 'cyan' && "hover:glow-cyan hover:border-cyan-500/30",
-          glow === 'green' && "hover:glow-green hover:border-green-500/30",
-          glow === 'amber' && "hover:glow-amber hover:border-amber-500/30",
-          glow === 'red' && "hover:glow-red hover:border-red-500/30",
+          "bg-white border border-[#E2E8F0] rounded-lg p-5 shadow-sm transition-all duration-200",
+          hover && "cursor-pointer hover:shadow-md hover:border-[#CBD5E1]",
           className
         )}
         {...props}
